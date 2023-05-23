@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "home-challenge",
+    "slug": "home-challenge",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
