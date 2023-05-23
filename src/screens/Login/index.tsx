@@ -1,9 +1,12 @@
-import { Center, Divider, Heading, HStack, ScrollView, Text, VStack } from 'native-base'
+import { Center, Heading, HStack, Pressable, ScrollView, Text, VStack } from 'native-base'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema } from './validators'
 import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
+import { useNavigation } from '@react-navigation/native'
+import { AuthNavigatorRoutesProps } from '../../routes/auth.routes'
+import { Header } from '../../components/Header'
 
 export type LoginProps = {
   email: string
@@ -11,6 +14,7 @@ export type LoginProps = {
 }
 
 export function Login() {
+  const navigation = useNavigation<AuthNavigatorRoutesProps>()
   const {
     control,
     handleSubmit,
@@ -24,6 +28,9 @@ export function Login() {
     console.log(password)
   }
 
+  function handleNavigate() {
+    navigation.navigate('signup')
+  }
 
   return (
     <ScrollView
@@ -31,8 +38,8 @@ export function Login() {
         flexGrow: 1
       }}
       showsVerticalScrollIndicator={false}>
-      <Divider bg="#F4F4F4" mt="95px" mb={4} />
-      <VStack flex={1}  px="20px">
+      <Header />
+      <VStack flex={1} px="20px">
         <Center mb="34px">
           <Heading fontSize="18">Login</Heading>
         </Center>
@@ -43,7 +50,6 @@ export function Login() {
           name="email"
           render={({ field: { onChange, value } }) => (
             <Input
-              title="E-mail"
               placeholder={'E-mail'}
               autoCapitalize="none"
               keyboardType="email-address"
@@ -60,7 +66,6 @@ export function Login() {
           name="password"
           render={({ field: { onChange, value } }) => (
             <Input
-              title="Password"
               placeholder={'Minimum 8 characters'}
               autoCapitalize="none"
               onChangeText={onChange}
@@ -74,8 +79,10 @@ export function Login() {
         <Button title="Login" mt="37px"  onPress={handleSubmit(onSubmit)} />
 
         <HStack justifyContent="center" alignContent="center" mt={3}>
-          <Text color="#A0A0A0" fontSize="12px">Don't have an account?</Text>
-          <Text color="#A0A0A0" fontSize="12px" textDecorationLine="underline">Sign up</Text>
+          <Text color="#A0A0A0" fontSize="12px">Don't have an account? </Text>
+          <Pressable onPress={handleNavigate}>
+            <Text fontSize="12px" textDecorationLine="underline">Sign up </Text>
+          </Pressable>
           <Text color="#A0A0A0" fontSize="12px">here</Text>
         </HStack>
       </VStack>
