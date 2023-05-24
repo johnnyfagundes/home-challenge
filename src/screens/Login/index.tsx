@@ -52,7 +52,7 @@ export function Login() {
 
   return (
     <Container>
-      <Divider bg="#F4F4F4" mb={4} mt="96px" />
+      <Divider bg="#F4F4F4" mt={8} mb={4} />
       <VStack flex={1} px="20px">
         <Center mb="34px">
           <Heading fontSize="18">Login</Heading>

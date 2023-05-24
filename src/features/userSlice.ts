@@ -30,6 +30,9 @@ const usersSlice = createSlice({
   name: REDUCER_NAME,
   initialState,
   reducers: {
+    signOut: (state) => {
+      state.userLogged = false
+    },
     reset: (state) => {
       state.loginStatus = Status.idle
       state.signUpStatus = Status.idle
@@ -54,13 +57,12 @@ const usersSlice = createSlice({
   }
 })
 
-export const usersSelector = (state: RootState) => state.userSlice.users
 export const userLoggedSelector = (state: RootState) => state.userSlice.userLogged
 export const loginStatusSelector = (state: RootState) => state.userSlice.loginStatus
 export const signUpStatusSelector = (state: RootState) => state.userSlice.signUpStatus
 
 export const {
-  setUsers,
+  signOut,
   addUser,
   checkUser,
   reset

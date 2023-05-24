@@ -1,7 +1,10 @@
-import { Box, Center, Heading, HStack } from 'native-base'
+import { Box, Center, Heading, HStack, Icon, Pressable } from 'native-base'
+import { MaterialIcons } from '@expo/vector-icons'
 
 import ProfileSvg from '@assets/profile.svg'
-import BellSvg from '@assets/bell.svg'
+
+import { useAppDispatch } from '../../../app/hooks'
+import { signOut } from '../../../features/userSlice'
 
 type Props = {
   title: string
@@ -9,8 +12,14 @@ type Props = {
 
 
 export function HomeHeader({title}: Props) {
+  const dispatch = useAppDispatch()
+
+  function logout() {
+    dispatch(signOut())
+  }
+
   return (
-    <HStack pt={16} pb={2} px={4} alignItems="center">
+    <HStack pb={2} px={4} alignItems="center">
       <Box w={10}>
         <Center height="32px" w="32px" borderRadius="16px" bg="gray.100">
           <ProfileSvg/>
@@ -20,9 +29,11 @@ export function HomeHeader({title}: Props) {
         <Heading fontSize="sm">Account:{title}</Heading>
       </HStack>
       <Box w={10} alignItems="flex-end">
-        <Center height="32px" w="32px" borderRadius="16px">
-          <BellSvg/>
-        </Center>
+        <Pressable onPress={logout}>
+          <Center height="32px" w="32px" borderRadius="16px">
+            <Icon as={MaterialIcons} name="logout" color="gray.900" size={7} />
+          </Center>
+        </Pressable>
       </Box>
     </HStack>
   )

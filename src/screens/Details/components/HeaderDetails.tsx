@@ -17,7 +17,7 @@ export function HeaderDetails({ title, code }:  Props) {
 
   return (
     <>
-      <HStack pt={16} pb={2} px={4} alignItems="center">
+      <HStack pb={2} px={4} alignItems="center">
         <Box w={10}>
           <TouchableOpacity onPress={handleGoBack}>
             <Icon as={Ionicons} name="arrow-back" size={6} />
