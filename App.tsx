@@ -1,11 +1,15 @@
 import React from 'react'
-import { Box, Center, Container, NativeBaseProvider } from 'native-base'
+import { NativeBaseProvider } from 'native-base'
 import { Routes } from './src/routes'
+import { Provider } from 'react-redux'
+import { store } from './src/app/store'
 
 export default function App() {
   return (
-    <NativeBaseProvider>
-      <Routes/>
-    </NativeBaseProvider>
+    <Provider store={store}>
+      <NativeBaseProvider>
+        <Routes/>
+      </NativeBaseProvider>
+    </Provider>
   )
 }

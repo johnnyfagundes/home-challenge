@@ -14,7 +14,7 @@ type AppRoutes = {
   Home: undefined
   Trade: undefined
   Portfolio: undefined
-  details: undefined
+  details: { id: string }
 }
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>

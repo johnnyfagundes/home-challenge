@@ -1,4 +1,4 @@
-import { Box, Center, Checkbox, Heading, HStack, Pressable, ScrollView, Text } from 'native-base'
+import { Box, Center, Checkbox, Heading, HStack, Pressable, ScrollView, Text, useToast } from 'native-base'
 import { Header } from '../../components/Header'
 import { Controller, useForm } from 'react-hook-form'
 import { Input } from '../../components/Input'
@@ -7,26 +7,61 @@ import { signupSchema } from './validators'
 import { Button } from '../../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import { AuthNavigatorRoutesProps } from '../../routes/auth.routes'
+import { useEffect } from 'react'
+import { addUser, reset, signUpStatusSelector, Status } from '../../features/userSlice'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 
 export type SignUpProps = {
   firstName: string
   lastName: string
   email: string
   password: string
+  isChecked: boolean
 }
 
 export function SignUp() {
   const navigation = useNavigation<AuthNavigatorRoutesProps>()
+  const toast = useToast()
+  const dispatch = useAppDispatch()
+  const signUpStatus = useAppSelector(signUpStatusSelector)
   const {
     control,
     handleSubmit,
-    formState: {errors}
+    formState: {errors, isValid}
   } = useForm<SignUpProps>({
     resolver: yupResolver(signupSchema)
   })
 
-  function onSubmit() {
+  useEffect(() => {
+    if (signUpStatus == Status.failed) {
+      toast.show({
+        title: `Error`,
+        description: 'User already registered',
+        placement: 'top',
+        duration: 3000,
+        bgColor: 'red.500',
+      });
+    }
+    if (signUpStatus == Status.succeeded) {
+      toast.show({
+        title: `Success`,
+        description: 'User registered',
+        placement: 'top',
+        duration: 3000,
+        bgColor: 'green.500',
+      });
+      navigation.goBack()
+    }
+  }, [signUpStatus])
 
+  function onSubmit({ email, password, firstName, lastName }: SignUpProps) {
+    dispatch(addUser({
+      email,
+      password,
+      firstName,
+      lastName
+    }))
+    dispatch(reset())
   }
 
   function handleNavigateToLogin() {
@@ -106,14 +141,25 @@ export function SignUp() {
         />
 
         <HStack mt={5} space={2}>
-          <Checkbox value="test" accessibilityLabel="This is a dummy checkbox"
-                    _checked={{bgColor: '#770FDF', borderColor: '#770FDF'}}/>
+          <Controller
+            control={control}
+            name="isChecked"
+            render={({field: {onChange, value}}) => (
+              <Checkbox
+                value="test"
+                accessibilityLabel="accept terms"
+                onChange={onChange}
+                isChecked={value ?? false}
+                _checked={{bgColor: '#770FDF', borderColor: '#770FDF'}}
+              />
+            )}
+          />
           <Text color="#A0A0A0" fontSize="12px" flexShrink={1}>I am over 18 years of age and I have read and agree to
             the <Text fontWeight="400" color="black">Terms of Service</Text> and <Text fontWeight="400" color="black">Privacy
               policy</Text>.</Text>
         </HStack>
 
-        <Button title="Create account" mt={7} onPress={handleSubmit(onSubmit)}/>
+        <Button title="Create account" mt={7} isDisabled={!isValid} onPress={handleSubmit(onSubmit)}/>
 
         <HStack justifyContent="center" alignContent="center" mt={3}>
           <Text color="#A0A0A0" fontSize="12px">Already have an account? </Text>

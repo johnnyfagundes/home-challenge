@@ -2,41 +2,56 @@ import { Box, FlatList, Heading, HStack, Pressable, ScrollView, Text, VStack } f
 import { HomeHeader } from './components/HomeHeader'
 
 import ArrowIncreaseSvg from '@assets/arrow-increase.svg'
-import GraphSvg from '@assets/graph.svg'
-import MiniWindSvg from '@assets/mini-wind.svg'
+import ArrowDecreaseSvg from '@assets/arrow-decrease.svg'
 import BusinessStatisticsSvg from '@assets/business-statistics.svg'
+import RedGraphSvg from '@assets/red-graph.svg'
+import GreenGraphSvg from '@assets/green-graph.svg'
+import MiniWindSvg from '@assets/mini-wind.svg'
+import MiniSolarSvg from '@assets/mini-solar.svg'
+import MiniNaturalSvg from '@assets/mini-natural.svg'
+
 import { useNavigation } from '@react-navigation/native'
 import { AppNavigatorRoutesProps } from '../../routes/app.routes'
-
-const DATA = [
-  {id: '1', title: 'Wind Funnd'},
-  {id: '2', title: 'Solar Fund'},
-  {id: '3', title: 'Natural Fund'}
-]
+import { useAppSelector } from '../../app/hooks'
+import { fundsSelector } from '../../features/financeSlice'
 
 export function Home() {
   const navigation = useNavigation<AppNavigatorRoutesProps>()
+  const funds = useAppSelector(fundsSelector)
 
-  function handleNavigateToDetails() {
-    navigation.navigate('details')
+  function handleNavigateToDetails(id: string) {
+    navigation.navigate('details', {id})
+  }
+
+  const getChart = (negative: boolean) => {
+    if (negative) return <RedGraphSvg/>
+    return <GreenGraphSvg/>
+  }
+
+  const getIcon = (id: string) => {
+    if (id === '1') return <MiniWindSvg/>
+    if (id === '2') return <MiniSolarSvg/>
+    return <MiniNaturalSvg/>
   }
 
   const RenderItem = ({item}: any) => {
     return (
-      <Pressable onPress={handleNavigateToDetails}>
-        <VStack justifyContent="space-around" w="145px" h="145px" borderWidth={1} borderRadius={4} borderColor="gray.200" ml={4} p={2}>
-          <MiniWindSvg />
+      <Pressable onPress={() => handleNavigateToDetails(item.id)}>
+        <VStack justifyContent="space-around" w="145px" h="145px" borderWidth={1} borderRadius={4}
+                borderColor="gray.200" ml={4} p={2}>
+          {getIcon(item.id)}
           <Heading fontSize="sm">{item?.title}</Heading>
-          <GraphSvg />
+          {getChart(item.negative)}
           <HStack space={1} alignItems="auto">
-            <Heading fontSize="sm" fontWeight="400">$1032.23</Heading>
+            <Heading fontSize="sm" fontWeight="400">{item?.value}</Heading>
             <HStack alignItems="center" space={1}>
-              <ArrowIncreaseSvg width="10px" height="10px"/>
-              <Heading fontWeight="400" fontSize="sm" color="green.400">3.51%</Heading>
+              {!item.negative ? <ArrowIncreaseSvg width="10px" height="10px"/> :
+                <ArrowDecreaseSvg width="10px" height="10px"/>}
+              <Heading fontWeight="400" fontSize="sm"
+                       color={item.negative ? 'red.500' : 'green.500'}>{item?.percentage}</Heading>
             </HStack>
           </HStack>
         </VStack>
-
       </Pressable>
     )
   }
@@ -54,11 +69,11 @@ export function Home() {
         <Heading mx={4} mb={6} fontSize="md">Funds</Heading>
         <ScrollView horizontal showsHorizontalScrollIndicator={false}>
           <FlatList
-            data={DATA}
+            data={funds}
             renderItem={({item}) => (
               <RenderItem item={item}/>
             )}
-            numColumns={DATA.length}
+            numColumns={funds.length}
           />
         </ScrollView>
       </Box>
@@ -69,7 +84,7 @@ export function Home() {
           <Text color="white">Check out our top tip!</Text>
         </VStack>
         <Box flex={1} alignItems="flex-end">
-          <BusinessStatisticsSvg />
+          <BusinessStatisticsSvg/>
         </Box>
       </HStack>
 

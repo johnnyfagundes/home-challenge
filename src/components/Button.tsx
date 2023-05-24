@@ -10,12 +10,18 @@ export function Button({ title, variant = 'solid', ...rest }: Props) {
     <NativeBaseButton
       w="full"
       h="52px"
-      bg="#770FDF"
+      bg={variant === 'outline' ? 'transparent' : '#770FDF'}
+      borderWidth={variant === 'outline' ? 1 : 0}
+      borderColor="gray.300"
       _pressed={{
-        bg: '#8025db',
+        bg: variant === 'outline' ? 'gray.500' : '#8025db',
       }}
       {...rest}>
-      <Text color='white'>{title}</Text>
+      <Text
+        color={variant === 'outline' ? '#770FDF' : 'white'}
+        fontSize="md"
+        fontWeight="500"
+      >{title}</Text>
     </NativeBaseButton>
   )
 }

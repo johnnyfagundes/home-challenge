@@ -1,4 +1,4 @@
-import { Center, Heading, HStack, Pressable, ScrollView, Text, VStack } from 'native-base'
+import { Center, Heading, HStack, Pressable, ScrollView, Text, useToast, VStack } from 'native-base'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema } from './validators'
@@ -7,6 +7,9 @@ import { Button } from '../../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import { AuthNavigatorRoutesProps } from '../../routes/auth.routes'
 import { Header } from '../../components/Header'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { checkUser, loginStatusSelector, reset, Status } from '../../features/userSlice'
+import { useEffect } from 'react'
 
 export type LoginProps = {
   email: string
@@ -14,18 +17,33 @@ export type LoginProps = {
 }
 
 export function Login() {
+  const toast = useToast()
   const navigation = useNavigation<AuthNavigatorRoutesProps>()
+  const dispatch = useAppDispatch()
+  const loginStatus = useAppSelector(loginStatusSelector)
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: {errors}
   } = useForm<LoginProps>({
-    resolver: yupResolver(loginSchema),
+    resolver: yupResolver(loginSchema)
   })
 
-  function onSubmit({ email, password }: LoginProps) {
-    console.log(email)
-    console.log(password)
+  useEffect(() => {
+    if (loginStatus == Status.failed) {
+      toast.show({
+        title: `Login unsuccessful`,
+        description: 'Invalid params or user does not exist.',
+        placement: 'top',
+        duration: 3000,
+        bgColor: 'red.500',
+      });
+    }
+  }, [loginStatus])
+
+  function onSubmit({email, password}: LoginProps) {
+    dispatch(checkUser({email, password}))
+    dispatch(reset())
   }
 
   function handleNavigate() {
@@ -38,7 +56,7 @@ export function Login() {
         flexGrow: 1
       }}
       showsVerticalScrollIndicator={false}>
-      <Header />
+      <Header/>
       <VStack flex={1} px="20px">
         <Center mb="34px">
           <Heading fontSize="18">Login</Heading>
@@ -48,7 +66,7 @@ export function Login() {
         <Controller
           control={control}
           name="email"
-          render={({ field: { onChange, value } }) => (
+          render={({field: {onChange, value}}) => (
             <Input
               placeholder={'E-mail'}
               autoCapitalize="none"
@@ -64,7 +82,7 @@ export function Login() {
         <Controller
           control={control}
           name="password"
-          render={({ field: { onChange, value } }) => (
+          render={({field: {onChange, value}}) => (
             <Input
               placeholder={'Minimum 8 characters'}
               autoCapitalize="none"
@@ -76,7 +94,7 @@ export function Login() {
           )}
         />
 
-        <Button title="Login" mt="37px"  onPress={handleSubmit(onSubmit)} />
+        <Button title="Login" mt="37px" onPress={handleSubmit(onSubmit)}/>
 
         <HStack justifyContent="center" alignContent="center" mt={3}>
           <Text color="#A0A0A0" fontSize="12px">Don't have an account? </Text>
