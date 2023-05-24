@@ -1,4 +1,5 @@
 import { Box, Divider, HStack, Icon } from 'native-base'
+import { TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
 
