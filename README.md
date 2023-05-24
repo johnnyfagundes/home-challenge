@@ -12,6 +12,11 @@ Install the dependencies:
 npm install
 ```
 
+Install packages for iOS:
+```sh
+npx pod-install
+```
+
 Start project using:
 
 ```sh
