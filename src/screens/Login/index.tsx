@@ -1,4 +1,4 @@
-import { Center, Heading, HStack, Pressable, ScrollView, Text, useToast, VStack } from 'native-base'
+import { Center, Divider, Heading, HStack, Pressable, Text, useToast, VStack } from 'native-base'
 import { Controller, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginSchema } from './validators'
@@ -6,10 +6,10 @@ import { Input } from '../../components/Input'
 import { Button } from '../../components/Button'
 import { useNavigation } from '@react-navigation/native'
 import { AuthNavigatorRoutesProps } from '../../routes/auth.routes'
-import { Header } from '../../components/Header'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { checkUser, loginStatusSelector, reset, Status } from '../../features/userSlice'
 import { useEffect } from 'react'
+import { Container } from '../../components/Container'
 
 export type LoginProps = {
   email: string
@@ -51,12 +51,8 @@ export function Login() {
   }
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        flexGrow: 1
-      }}
-      showsVerticalScrollIndicator={false}>
-      <Header/>
+    <Container>
+      <Divider bg="#F4F4F4" mb={4} mt="96px" />
       <VStack flex={1} px="20px">
         <Center mb="34px">
           <Heading fontSize="18">Login</Heading>
@@ -68,7 +64,7 @@ export function Login() {
           name="email"
           render={({field: {onChange, value}}) => (
             <Input
-              placeholder={'E-mail'}
+              placeholder='johndoe@gmail.com'
               autoCapitalize="none"
               keyboardType="email-address"
               onChangeText={onChange}
@@ -84,7 +80,7 @@ export function Login() {
           name="password"
           render={({field: {onChange, value}}) => (
             <Input
-              placeholder={'Minimum 8 characters'}
+              placeholder='12345678'
               autoCapitalize="none"
               onChangeText={onChange}
               type="password"
@@ -104,6 +100,6 @@ export function Login() {
           <Text color="#A0A0A0" fontSize="12px">here</Text>
         </HStack>
       </VStack>
-    </ScrollView>
+    </Container>
   )
 }

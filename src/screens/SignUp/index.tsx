@@ -1,4 +1,4 @@
-import { Box, Center, Checkbox, Heading, HStack, Pressable, ScrollView, Text, useToast } from 'native-base'
+import { Box, Center, Checkbox, Heading, HStack, Pressable, Text, useToast } from 'native-base'
 import { Header } from '../../components/Header'
 import { Controller, useForm } from 'react-hook-form'
 import { Input } from '../../components/Input'
@@ -10,6 +10,7 @@ import { AuthNavigatorRoutesProps } from '../../routes/auth.routes'
 import { useEffect } from 'react'
 import { addUser, reset, signUpStatusSelector, Status } from '../../features/userSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { Container } from '../../components/Container'
 
 export type SignUpProps = {
   firstName: string
@@ -69,11 +70,7 @@ export function SignUp() {
   }
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        flexGrow: 1
-      }}
-      showsVerticalScrollIndicator={false}>
+    <Container>
       <Header/>
       <Center mb="34px">
         <Heading fontSize="18">Create your account</Heading>
@@ -150,11 +147,11 @@ export function SignUp() {
                 accessibilityLabel="accept terms"
                 onChange={onChange}
                 isChecked={value ?? false}
-                _checked={{bgColor: '#770FDF', borderColor: '#770FDF'}}
+                _checked={{bgColor: 'violet.700', borderColor: 'violet.700'}}
               />
             )}
           />
-          <Text color="#A0A0A0" fontSize="12px" flexShrink={1}>I am over 18 years of age and I have read and agree to
+          <Text color="gray.400" fontSize="12px" flexShrink={1}>I am over 18 years of age and I have read and agree to
             the <Text fontWeight="400" color="black">Terms of Service</Text> and <Text fontWeight="400" color="black">Privacy
               policy</Text>.</Text>
         </HStack>
@@ -162,14 +159,14 @@ export function SignUp() {
         <Button title="Create account" mt={7} isDisabled={!isValid} onPress={handleSubmit(onSubmit)}/>
 
         <HStack justifyContent="center" alignContent="center" mt={3}>
-          <Text color="#A0A0A0" fontSize="12px">Already have an account? </Text>
+          <Text color="gray.400" fontSize="12px">Already have an account? </Text>
           <Pressable onPress={handleNavigateToLogin}>
             <Text fontSize="12px" textDecorationLine="underline">Log in </Text>
           </Pressable>
-          <Text color="#A0A0A0" fontSize="12px">here</Text>
+          <Text color="gray.400" fontSize="12px">here</Text>
         </HStack>
 
       </Box>
-    </ScrollView>
+    </Container>
   )
 }

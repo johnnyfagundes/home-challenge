@@ -1,18 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { Details, Fund } from '../types/FinancesTypes'
-import { DETAILS, FUNDS } from '../mock/data'
+import { Details, Fund, Portfolio } from '../types/FinancesTypes'
+import { DETAILS, FUNDS, PORTFOLIO } from '../mock/data'
 import { RootState } from '../app/store'
 
 const REDUCER_NAME = 'finances'
 
 interface FinancesState {
   funds: Fund[]
+  portfolio: Portfolio
   detailsList: Details[]
   details: Details
 }
 
 const initialState = {
   funds: FUNDS,
+  portfolio: PORTFOLIO,
   detailsList: DETAILS,
   details: {}
 } as FinancesState
@@ -23,7 +25,6 @@ const financialSlice = createSlice({
   reducers: {
     setDetails: (state, action: PayloadAction<{ id: string }>) => {
       const details = state.detailsList.find(item => item.fundId === action.payload.id)
-        console.log('DETAILS => ', details)
       if (details) {
         state.details = details
       }
@@ -31,6 +32,7 @@ const financialSlice = createSlice({
   }
 })
 
+export const portfolioSelector = (state: RootState) => state.financeSlice.portfolio
 export const fundsSelector = (state: RootState) => state.financeSlice.funds
 export const detailsSelector = (state: RootState) => state.financeSlice.details
 

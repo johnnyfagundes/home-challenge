@@ -9,6 +9,7 @@ import { useTheme } from 'native-base'
 import { Home } from '../screens/Home'
 import { Trade } from '../screens/Trade'
 import { Details } from '../screens/Details'
+import { Portfolio } from '../screens/Portfolio'
 
 type AppRoutes = {
   Home: undefined
@@ -60,7 +61,7 @@ export function AppRoutes() {
       />
       <Screen
         name="Portfolio"
-        component={Trade}
+        component={Portfolio}
         options={{
           tabBarIcon: ({ color }) => (
             <PortfolioSvg fill={color} width={iconSize} height={iconSize} />

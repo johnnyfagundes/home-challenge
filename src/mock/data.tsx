@@ -1,10 +1,16 @@
-import { Details, Fund } from '../types/FinancesTypes'
+import { Details, Fund, Portfolio } from '../types/FinancesTypes'
 
 export const FUNDS: Fund[] = [
   {id: '1', title: 'Wind Funnd', value: '$1032.23', percentage: '3.51%', negative: false},
   {id: '2', title: 'Solar Fund', value: '$986.61', percentage: '0.13%', negative: true},
   {id: '3', title: 'Natural Fund', value: '$1122.00', percentage: '10.88%', negative: false},
 ]
+
+export const PORTFOLIO: Portfolio = {
+  value: '$1,245.23',
+  percentage: 31.82,
+  account: '$1,457.23'
+}
 
 export const DETAILS: Details[] = [
   {
@@ -13,6 +19,7 @@ export const DETAILS: Details[] = [
     code: 'WFND',
     year: 2022,
     value: '$18.23',
+    negative: false,
     info: [
       {key: 'AUM', value: '$430.88'},
       {key: 'Issue Date', value: '18/04/2022'},
@@ -33,6 +40,7 @@ export const DETAILS: Details[] = [
     code: 'SLFND',
     year: 2023,
     value: '$22.22',
+    negative: true,
     info: [
       {key: 'AUM', value: '$490.88'},
       {key: 'Issue Date', value: '18/05/2023'},
@@ -53,6 +61,7 @@ export const DETAILS: Details[] = [
     code: 'NTFND',
     year: 2023,
     value: '$9.23',
+    negative: false,
     info: [
       {key: 'AUM', value: '$430.88'},
       {key: 'Issue Date', value: '18/04/2022'},
@@ -68,3 +77,5 @@ export const DETAILS: Details[] = [
     }
   }
 ]
+
+export const LOREM_IPSUM = 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.'

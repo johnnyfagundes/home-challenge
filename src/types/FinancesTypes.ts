@@ -12,6 +12,7 @@ export interface Details {
   code: string,
   year: number,
   value: string,
+  negative: boolean
   info: Info[],
   credits: {
     total: string,
@@ -23,4 +24,10 @@ export interface Details {
 export interface Info {
   key: string
   value: string
+}
+
+export interface Portfolio {
+  value: string
+  percentage: number
+  account: string
 }
